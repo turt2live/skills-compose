@@ -61,7 +61,7 @@ services:
       - db
     environment:
       PMA_HOST: db
-      PMA_ABSOLUTE_URI: "http://localhost/phpMyAdmin"
+      PMA_ABSOLUTE_URI: "http://192.168.101.51/phpMyAdmin"
   # MariaDB instance for sites
   db:
     restart: unless-stopped

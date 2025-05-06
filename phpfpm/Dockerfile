@@ -8,5 +8,5 @@ RUN pear install Mail
 RUN pear install pear/Net_SMTP
 
 # Other extensions
-RUN docker-php-ext-install mysqli pdo pdo_mysql zip
-RUN docker-php-ext-enable mysqli
+RUN docker-php-ext-install mysqli pdo pdo_mysql zip bcmath calendar bz2 gettext exif ftp
+RUN docker-php-ext-enable mysqli pdo pdo_mysql zip bcmath calendar bz2 gettext exif ftp

@@ -72,6 +72,9 @@ services:
       - db_data:/var/lib/mysql:rw
     environment:
       MARIADB_ROOT_PASSWORD: CHANGEME
+      MARIADB_USER: skills
+      MARIADB_PASSWORD: CHANGEME
+      MARIADB_DATABASE: skills_db
   # MailDev instance for site usage
   email:
     restart: unless-stopped

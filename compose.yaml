@@ -1,22 +1,18 @@
-# Requirements
+# Requirements (2025)
 # - PHP 8.2
 # - NGINX
 # - MariaDB 11.1
 # - phpMyAdmin
 # - MailDev
 
-#########################
-## FIX THESE           ##
-## ------------------- ##
-## * db_connect vals   ##
-## * email vals        ##
-#########################
-
 volumes:
+  # MariaDB volume
   db_data:
+  # Note: web server volume is mounted to the host machine at /home/skills/website
 
 services:
-  nginx:
+  # NGINX frontend for competitor sites
+  web:
     restart: unless-stopped
     build:
       context: ./nginx
@@ -32,28 +28,29 @@ services:
     ports:
       - 80:80
     volumes:
-      - ./Project:/var/www/html
+      - /home/skills/website:/var/www/html
     links:
       - php
       - phpmyadmin
       - db
       - email
+  # PHP-FPM engine for running sites
   php:
     restart: unless-stopped
     build:
       context: ./phpfpm
       dockerfile: Dockerfile
-      #network: host
     expose:
       - 9000
     volumes:
-      - ./Project:/var/www/html
+      - /home/skills/website:/var/www/html
     depends_on:
       db:
         condition: service_started
     links:
       - db
       - email
+  # Database access tooling
   phpmyadmin:
     restart: unless-stopped
     image: phpmyadmin:5.2
@@ -65,6 +62,7 @@ services:
     environment:
       PMA_HOST: db
       PMA_ABSOLUTE_URI: "http://localhost/phpMyAdmin"
+  # MariaDB instance for sites
   db:
     restart: unless-stopped
     image: mariadb:11.1
@@ -74,6 +72,7 @@ services:
       - db_data:/var/lib/mysql
     environment:
       MARIADB_ROOT_PASSWORD: test1234
+  # MailDev instance for site usage
   email:
     restart: unless-stopped
     image: maildev/maildev:2.2.1

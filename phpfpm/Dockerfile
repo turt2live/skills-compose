@@ -1,7 +1,7 @@
 FROM php:8.2-fpm
 
 # Dependencies
-RUN apt-get update && apt-get install -y zlib1g-dev libzip-dev
+RUN apt-get update && apt-get install -y zlib1g-dev libzip-dev libbz2-dev
 
 # Email
 RUN pear install Mail
